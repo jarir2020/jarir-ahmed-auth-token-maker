@@ -1,8 +1,9 @@
 {
     "name": "jarir-ahmed/auth-token-maker",
-    "description": "A PHP package to generate a secure auth token with a fixed length of 60 characters.",
+    "description": "Generate cryptographically secure, fixed-length auth tokens (hex) of any length.",
     "type": "library",
     "license": "MIT",
+    "keywords": ["token", "auth", "security", "random"],
     "authors": [
         {
             "name": "Jarir Ahmed",
@@ -12,9 +13,20 @@
     "require": {
         "php": ">=7.2"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
     "autoload": {
         "psr-4": {
             "JarirAhmed\\AuthTokenMaker\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JarirAhmed\\AuthTokenMaker\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

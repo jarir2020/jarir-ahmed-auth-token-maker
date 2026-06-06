@@ -2,23 +2,28 @@
 
 namespace JarirAhmed\AuthTokenMaker;
 
-use Exception;
+use InvalidArgumentException;
 
 class AuthTokenMaker
 {
     /**
-     * Generate a secure random auth token of a specified length.
+     * Generate a cryptographically secure random auth token of the exact requested length.
      *
-     * @param int $length Length of the token (default is 60 characters).
-     * @return string The generated token.
-     * @throws Exception
+     * The token is hex (characters 0-9a-f). Works for both odd and even lengths.
+     *
+     * @param int $length Number of characters (default 60). Must be >= 1.
+     * @return string
+     * @throws InvalidArgumentException
      */
     public static function generate($length = 60)
     {
-        if ($length <= 0) {
-            throw new Exception("Token length must be greater than zero.");
+        $length = (int) $length;
+        if ($length < 1) {
+            throw new InvalidArgumentException('Token length must be greater than zero.');
         }
 
-        return bin2hex(random_bytes($length / 2)); 
+        // 2 hex chars per byte; round up then trim so odd lengths are exact.
+        $bytes = (int) ceil($length / 2);
+        return substr(bin2hex(random_bytes($bytes)), 0, $length);
     }
 }
